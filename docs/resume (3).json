@@ -1,0 +1,181 @@
+{
+  "selectedTemplate": 1,
+  "headings": {
+    "projects": ""
+  },
+  "basics": {
+    "name": "Bishal Sarangkoti",
+    "email": "sarangbishal@gmail.com",
+    "phone": "+9779823859079",
+    "location": {
+      "address": "Kathmandu, Nepal"
+    },
+    "website": "https://www.linkedin.com/in/bishal-sarangkoti-310664bb/"
+  },
+  "education": [
+    {
+      "studyType": "Computer Engineering",
+      "gpa": "",
+      "institution": "Kathmandu University",
+      "area": "Bachelors ",
+      "location": "Dhulikhel, Nepal",
+      "startDate": "2016",
+      "endDate": "2020"
+    },
+    {
+      "institution": "St. Xavier's College, ",
+      "location": "Maitighar, Kathmandu, Nepal",
+      "startDate": "2014",
+      "endDate": "2016",
+      "studyType": "Plus Two",
+      "area": "Science"
+    }
+  ],
+  "work": [
+    {
+      "location": "Kathmandu, Nepal",
+      "website": "",
+      "startDate": "Jul 2023",
+      "endDate": "",
+      "highlights": [
+        null
+      ],
+      "company": "Leapfrog Technology, Inc.",
+      "position": "Senior Software Engineer"
+    },
+    {
+      "highlights": [
+        "Actively participated in entire aspects of the project: D&D, estimation, development, code reviews, testing, performance enhancement, deployment, client communication",
+        "Provided KSS and training to new developers",
+        "Proactively participate in improving the codebase by working on Javadocs, SchemaSpy Docs, Swagger Docs, fixing the Sonarqube issues",
+        " Worked on improving error handling, logging and notifications using cloudwatch, open search",
+        "Work on several POCs and research tasks like polyglot feature with GraalVM, ALB authentication using Okta, LDAP integration, CxSmile rendering, cross-account sharing for AWS resource(OpenSearch) using Java STS SDK"
+      ],
+      "company": "Leapfrog Technology, Inc.",
+      "position": "Software Engineer",
+      "location": "Kathmandu, Nepal",
+      "startDate": "Jan 2022",
+      "endDate": "July 2023"
+    },
+    {
+      "highlights": [
+        "Contributed as a Full Stack developer from requirement analysis to to shipping major features for Bio Medical Company in USA",
+        "Worked on codebases based on JavaScript, Java and Postgres using web components(Lit Element)",
+        "Developed REST APIs using Micronaut and UI using Lit Element"
+      ],
+      "position": "Associate Software Engineer",
+      "company": "Leapfrog Technology, Inc.",
+      "location": "Kathmandu, Nepal",
+      "startDate": "Sep 2020",
+      "endDate": "Jan 2022"
+    },
+    {
+      "highlights": [
+        "Research, collaborate and write articles in C++ topics and tutorials for https://www.programiz.com/"
+      ],
+      "company": "Programiz PRO",
+      "position": " Freelance Technical Writer",
+      "location": "Kathmandu, Nepal",
+      "startDate": "Sep 2021",
+      "endDate": "Dec 2021"
+    }
+  ],
+  "skills": [
+    {
+      "level": "",
+      "keywords": [
+        "Java",
+        "JavaScript",
+        "Typescript",
+        "Python",
+        "C#",
+        "C++"
+      ],
+      "name": "Programming Languages"
+    },
+    {
+      "keywords": [
+        "ReactJs",
+        "Micronaut",
+        "NestJS",
+        "Serverless Framework",
+        "Lit Element",
+        "Web components"
+      ],
+      "name": "Frameworks and Libraries"
+    },
+    {
+      "keywords": [
+        "PostgreSQL",
+        "MySQL",
+        "AWS ",
+        "Docker",
+        "Git"
+      ],
+      "name": "Other"
+    },
+    {
+      "keywords": [
+        ""
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": " Recursion Visualiser",
+      "keywords": [
+        "Python",
+        "Selenium"
+      ],
+      "description": "A simple python package to visualize recursive function which can be useful for academic purpose as well as debugging. It generates animation and draws recursion tree.",
+      "url": "https://github.com/Bishalsarang/Recursion-Tree-Visualizer"
+    },
+    {
+      "keywords": [
+        null
+      ]
+    },
+    {
+      "keywords": [
+        "Python",
+        "OpenCV",
+        "NumPy"
+      ],
+      "name": " Ballot Paper Counting System",
+      "description": "A computer vision based project to analyze ballot paper(Nepal), count votes and display the result. The aim of the project is to make counting votes from ballot paper more efficient.",
+      "url": "https://github.com/Bishalsarang/Ballot-Paper-Counting-System"
+    },
+    {
+      "keywords": [
+        "Python",
+        "OpenCv"
+      ],
+      "name": "The Sign Language Platform",
+      "description": "Implementation of American Sign Language using computer vision and machine learning(CNN) Translates sign language to text and text to speech",
+      "url": "https://github.com/Bishalsarang/The-Sign-Language-Platform"
+    }
+  ],
+  "awards": [
+    {
+      "date": "Jul 2019",
+      "awarder": "National College of Engineering (NCE)",
+      "summary": "Winner of Yatra 3.0 Coding Competition 2019",
+      "title": " NCE Yatra 3.0 Coding Competition Winner"
+    },
+    {
+      "title": " GeeksforGeeks Fork CPP",
+      "date": "Jan 2019",
+      "awarder": "GeeksforGeeks",
+      "summary": "Ranked 8th/2500 in an online programming contest on C++, \"Fork CPP\""
+    }
+  ],
+  "sections": [
+    "templates",
+    "profile",
+    "education",
+    "work",
+    "skills",
+    "projects",
+    "awards"
+  ]
+}
