@@ -1,0 +1,359 @@
+---
+title: 'What are map, filter and reduce in Python'
+date: 2019-05-29T07:25:00.000-07:00
+draft: false
+summary: A quick introduction to map, filter and reduce in Python
+tags: 
+- functional
+- filter
+- python how to
+- reduce
+- map
+- python
+- lambdas
+- lambda
+---
+
+I wrote a post about map, filter and reduce on Python a while ago on [quora](https://www.quora.com/What-are-the-map-filter-and-reduce-operations-in-Python). In this post, I'm going to talk about map filter and reduce in detail with examples.  
+Let's get started: Basically map, filter and reduce gives functional programming features to Python. But before diving into these three functions let me talk briefly about lambda(Hopefully I'll be writing another post about lambdas)  
+
+### Lambda
+
+Let me introduce how to use lambda(nameless) function so that we dont have to define function by `def` keyword everytime. The syntax for lambda is as follows:  
+```
+lambda *params: result 
+```
+
+Doesn't make sense. Let's see some examples:
+
+**_Q1. Write a lambda function to square a given number_**.  
+```
+>>> func = lambda x: x * x
+>>> func(3)
+9 
+```
+Here what lambda does is take a parameter x and then return its squarei i.e
+```
+x is the argument
+x * x is the return value 
+```
+Note, we don't need explicit `return` statement. Let's try a similar example that adds two given numbers.
+
+**_Q2. Write a lambda function to add 2 numbers_**
+
+```
+>>> func = lambda x, y: x  + y
+>>> func(5, 4)
+9 
+```
+This lambda function is simply taking two numbers `x` and `y` and simply returning it's result. Let's make it more interesting by writing a lambda function to square an even number but cube an odd number.
+**_Q3. Write a lambda function that square if the number is even and cube if it is odd_**  
+```
+>>> func = lambda x: x * x if x % 2 == 0 else x ** 3
+>>> func(2)
+4
+>>> func(3)
+27 
+```
+We have used if..else in python to handle two cases You might be wondering why lambdas are called nameless or anonymous function, right? Let's get to that part. We don't necessarily need to give name to our lambda function. Let's see how it works
+```
+>>> (lambda x: x * x )(9)
+81 
+```
+Here we can directly invoke the lambda function. I hope you now know the basic working of lambdas to get started with map, filter and reduce.
+
+### 1\. Map:
+
+Syntax:  
+```
+map(funct, iterable)
+```
+
+Basically what map does is it take a function and an iterable(list, tuple, string, set) and applies function to each of the members in the iterable. Map returns a map object which is an iterable. Let's work on some of the examples on Python Console. A quick help on map shows following output
+```
+>>> help(map)
+Help on class map in module builtins:
+
+class map(object)
+ |  map(func, *iterables) --> map object
+ |
+ |  Make an iterator that computes the function using arguments from
+ |  each of the iterables.  Stops when the shortest iterable is exhausted. 
+```
+
+I've included only few lines of the output but you can explore for more. Let's see some examples to understand more about map. I'll be working all the examples on console.  
+**_Task 1. Given a list of integer square each number in the list_**  
+```
+>>> def func(x):
+...     return x * x
+>>> l = [1, 2, 3, 4, 5] 
+```
+
+```
+>>> map(func, l) 
+```
+Remember lambdas from above ?? Instead of making function using `def` , I'll be using lambdas to make code more concise(Remember lambdas are handy in many cases like sorting). Let's replace the func with lambda function.  
+```py
+>>> map(lambda x: x * x, l)
+<map object at d>
+```
+
+Aren't we supposed to get output like ?  
+```
+[1, 4, 9, 16, 25] 
+```
+Don't worry we'll get there. As mentioned previoulsy map function returns a map object. Since, map returns an iterable, we can still access the elements using iter() and next() until `StopIteration` is raised i.e there are no more elements left.  
+```py
+>>> it = map(lambda x: x * x, l)
+>>> next(it)
+1
+>>> next(it)
+4
+>>> next(it)
+9
+>>> next(it)
+16
+>>> next(it)
+25
+>>> next(it)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration 
+```
+We get the required results but this doesn't look quite interesting . An alternative way would be to loop across all the elements using a for loop.  
+```
+>>> it = map(lambda x: x * x, l)
+>>> for elem in it:
+...     print(elem, end = " ")
+...
+1 4 9 16 25 
+```
+This looks okayish. Can we do better like make a list out of the map object directly??  
+```
+>>> l = list(map(lambda x: x * x, l))
+>>> l
+[1, 16, 81, 256, 625] 
+```
+Okay it works as expected. Let's see an another example , maybe, square if the numbers are odd and cube if it is even.  
+**_Task 2. Given a list of integer square square if the numbers are odd and cube if it is even_**  
+I hope you know how to write lambda function that takes a number and does what the question is asking. If not read abut it in lambdas section. I'll be directly jumping to making a list out of map object. You may use loops or `iter(), next()` whenever necessary.  
+```
+>>> l = list(map(lambda x: x * x if x % 2 == 0 else x ** 3, l))
+>>> l
+[1, 4, 27, 16, 125] 
+```
+**_Task 3. Given a list of string integers like `"1", "123", "5"` write a function that convert the list of integer numbers._**
+```
+>>> str_list = ["1", "2", "3"]
+>>> l = list(map(lambda x: int(x), str_list))
+>>> l
+[1, 2, 3] 
+```
+The above code works fine but there is some redundancy `lambda x: int(x)` . This is because there is already an inbuilt in Python named int that takes a paramer and return its integer equivalent.  
+```
+>>> str_list = ["1", "2", "3"]
+>>> l = list(map(int, str_list))
+>>> l
+[1, 2, 3] 
+```
+**_Task 4. Given a list of string make a list of same size that gives the length of the string for every element_**
+```
+>>> str_list = ["Ram", "Hari"]
+>>> l = list(map(len, str_list))
+>>> l
+[3, 4] 
+```
+**_Task 5. Given a list of number separated by space as input . Write a function to make a list of the numbers using map_** This shorthand comes handy while reading inputs in competitive coding problems site.
+```
+>>> l = list(map(int, input().split()))
+1 2 3 4 5
+>>> l
+[1, 2, 3, 4, 5] 
+```
+Wondering what `input().split()` is doing? It simply splits a string by space while taking input and returns a list.  
+```
+>>> l = input().split()
+Ram Kumar
+>>> l
+['Ram', 'Kumar'] 
+```
+Compare it with  
+```
+>>> l = input()
+Ram Kumar
+>>> l
+'Ram Kumar' 
+```
+See the difference? input().split() split the input string to make a list out of each strings other than space but if we dont use .split(), the input is taken as a single string no matter how many spaces are there.  
+Let's try working with multiple iterables. **_Task 6. Given two lists of strings one containing firstname and another containing last name of each i, write a function to make a single list with each firstname and lastname separated by space._** Let's say we are given two lists  
+```
+>>> first_name = ["Ram", "Sita", "Hari"]
+>>> last_name = ["Pandey", "Chhetri", "Timalsina"] 
+```
+What we want is output like  
+```
+['Ram Pandey', 'Sita Chhetri', 'Hari Timalsina'] 
+```
+We can simply solve this problem using lambda function that takes 2 arguments and concatenate them with space in between.  
+```
+lambda x, y: x + " " + y, 
+```
+where `x` is the argument from first iterable and `y` is the argument from second.  
+```
+>>> full_name = list(map(lambda x, y: x + " " + y, first_name, last_name))
+>>> full_name
+['Ram Pandey', 'Sita Chhetri', 'Hari Timalsina'] 
+```
+An alternative method to this would be using `zip` which is out of scope of this post.  
+```
+>>> merged = list(zip(first_name, last_name))
+>>> merged
+[('Ram', 'Pandey'), ('Sita', 'Chhetri'), ('Hari', 'Timalsina')]
+>>> full_name = list(map(lambda x: x[0] + " " + x[1], merged))
+>>> full_name
+['Ram Pandey', 'Sita Chhetri', 'Hari Timalsina'] 
+```
+
+### 2\. Filter
+
+Syntax:  
+```
+filter(function, iterable) 
+```
+Filter is similar to the map . The difference is that it returns a new `filter` object which is an iterable of the elements that satify the `boolean function`. As the name suggests, it is used to filter the elements based on a certain condition. Don't worry if it doesn't make sense right now. We'll get into more details with examples . Let's do some codes:  
+```
+>>> help(filter)
+Help on class filter in module builtins:
+
+class filter(object)
+ |  filter(function or None, iterable) --> filter object
+ |
+ |  Return an iterator yielding those items of iterable for which function(item)
+ |  is true. If function is None, return the items that are true. 
+```
+**_Task 1. Given a list of integer keep only the even numbers_** The lambda function that returns if a number is even easy to write. If you are having trouble writing it, revisit the lambda section above.
+```
+>>> (lambda x: x % 2 == 0)(1)
+False
+>>> (lambda x: x % 2 == 0)(2)
+True 
+```
+Now, we can use lambda and filter to perform the filter operation i.e separate only even numbers.  
+```py
+>>> l = [1, 2, 3, 4, 5]
+>>> filter(lambda x: x % 2 == 0, l)
+<filter object at d> 
+```
+Looks familiar? It is similar to the output of map .The only difference is we are getting a filter object insted of map. Since, it is also an iterable we can use `iter()`, `nex()` or a `for loop` to access the contents. But I would like to leave that as a exercise for you and directly dive into making a list out of filter object.  
+```
+>>> l = [1, 2, 3, 4, 5]
+>>> evens = list(filter(lambda x: x % 2 == 0, l))
+>>> evens
+[2, 4] 
+```
+This works as expected.  
+**_Task 2. Given a list of passwords as string. Filter out all the weak passwords keeping only the vald passwords. For simplicity, a strong password is a password which is at least 8 characters long, contains at least one digit, at least one lowercase letter, at least one uppercase letter and at least 1 special symbols where special symbols are !@#$%^&_**
+
+Take your time to understand what question is asking. Basically, we are given a list of passwords and our task is to make list containing only the strong passwords. Sounds simple?
+```
+ >>> def is_strong(s):
+...     return len(s) >= 8 and any([x.isupper() for x in s]) and any([x.islower() for x in s]) and any([x.isdigit() for x in s]) and any([(x in "!@#$%^&") for x in s])
+>>> l = ["abcDEF1!", "abcdeF", "123456789", "aB1$", "123456789DDDDBBBaaa", "aaDDDD123$%"]
+>>> strong = list(filter(is_strong, l))
+>>> strong
+['abcDEF1!', 'aaDDDD123$%'] 
+```
+Since , we are going to have a longer return statement, I've switched to normal functions instead of lambda . Remember readability matters. I could have written series of staements to check these 4 conditions but I choose to use a single statement . So what is\_strong(s) does is take a string s and check if length of string is greater than or equal to 8 and contains any one of the uppercase letter, lowercase letter, digit and a special symbol characters. If you are seeing these string methods `.isupper(), .islower(), .isdigit()` for the first time here is how they work.  
+```
+>>> "a".islower()
+True
+>>> "a".isupper()
+False
+>>> "A".isupper()
+True
+>>> "9".isdigit()
+True
+>>> "9".isupper()
+False 
+```
+Hope it clears your doubt. These are the string methods that returns a boolean value if the condition is satisfied(eg: isdigit() return true if the string is a digit). Let's see what `any()` is doing here.  
+```
+>>> help(any)
+Help on built-in function any in module builtins:
+
+any(iterable, /)
+    Return True if bool(x) is True for any x in the iterable.
+
+    If the iterable is empty, return False.
+>>> any([False, False])
+False
+>>> any([True, False, False])
+True 
+```
+What it is doing is is returns True if any one of the members in iterables is True , in our case if any one of the number is `digit, uppercase, lowercase` . Hope it clears your doubt.  
+
+### 3\. Reduce
+
+Syntax:  
+```
+reduce(function, iterable, start) 
+```
+Reduce applies a function of two arguments to items of sequence until it returns a single value. It takes a function that takes two arguments and an iterable and an start value. If start value is not specified explicitly it takes the first element as the start value.  
+Let's see what help has to offer.  
+```
+>>> from functools import reduce
+>>> help(reduce)
+Help on built-in function reduce in module _functools:
+
+reduce(...)
+    reduce(function, sequence[, initial]) -> value
+
+    Apply a function of two arguments cumulatively to the items of a sequence,
+    from left to right, so as to reduce the sequence to a single value.
+    For example, reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) calculates
+    ((((1+2)+3)+4)+5).  If initial is present, it is placed before the items
+    of the sequence in the calculation, and serves as a default when the
+    sequence is empty. 
+```
+Notice the first line? We are importing reduce from functools. We didn't need to import map and filter , right? This is because we don't need to import attributes that are in bultins.  
+```
+>>> import builtins
+>>> "map" in dir(builtins)
+True
+>>> "filter" in dir(builtins)
+True
+>>> "reduce" in dir(builtins)
+False 
+```
+**_Task 1: Given a list of integers, write a code that returns the total value obtained by multiplying the elements in the list._**
+```
+>>> from functools import reduce
+>>> l = [1, 2, 3, 4, 5, 6]
+>>> mul = reduce(lambda x, y: x * y, l)
+>>> mul
+720 
+```
+
+**_Task 2: Given a list of integers, write a code that returns the total value obtained by summing all the elements in the list._**
+```
+>>> l = [1, 2, 3, 4, 5, 6]
+>>> sm = reduce(lambda x, y: x + y, l, 0)
+>>> sm
+21 
+```
+We can verify that it is indeed returning the sum by doing maths by hand or by using  
+```
+>>> sum(l)
+21 
+```
+**_Task 3: Given a list of integers, write a code that returns the lcm of these values_**
+```
+>>> from functools import reduce
+>>> from fractions import gcd
+>>> l = [8, 19, 3, 5, 10, 2, 2, 4]
+>>> lcm = reduce(lambda x, y: x * y // gcd(x, y), l)
+>>> lcm
+2280 
+```
+Instead of implementing my own custom function to calculate LCM, I've used fractions module to calculate gcd and then find its lcm.  
+This kind of complete this post as of now. I'll be adding more examples.

@@ -1,0 +1,149 @@
+---
+title: 'What are *args and **kwargs in Python'
+date: 2019-06-01T05:01:00.000-07:00
+draft: false
+tags:
+- kwargs
+- args
+- python how to
+- args
+- python
+- kwargs
+---
+
+In this post, I'm going to talk about \*args and \*\*kwargs in Python which is a useful concept while handling multiple arguments.
+
+
+
+They are called `*args` and `**kwargs` in Python which allows the function to accept optional arguments(`positional` and `keyword`).
+Let’s see with an example.
+At first, let’s make a simple function that accepts a single argument, `first_name`.
+```
+>>> def person(first_name):
+...     print(first_name)
+>>> person("Ram")
+Ram
+>>> person()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: person() missing 1 required positional argument: 'first_name'
+```
+What we can see is `first_name` is a compulsory argument. So, it is not possible to call the function without arguments.
+Now, what we are going to do is make a function that accepts `first_name` as compulsory arguments followed by `last_name` as an optional argument.
+One way to do this would be
+```
+>>> def person(first_name, last_name=""):
+...     print(first_name, last_name)
+>>> person("Ram") # Called with 1 argument
+Ram
+>>> person("Ram", "Shrestha") # Called with 2 arguments
+Ram Shrestha
+```
+So far everything is going well. But now we want to scale the same function to accept `first_name`(compulsory) and `last_name` and `middle_name` as positional arguments.
+One simple trick is to add another argument middle\_name.
+```
+>>> def person(first_name, last_name="", middle_name=""):
+...     print(first_name, middle_name, last_name)
+```
+But there is a more concise way to scale the function to accept multiple optional arguments called `*args` in Python.
+
+[](https://www.blogger.com/null)1\. \***_args_**
+------------------------------------------------
+
+> \*args collects extra positional arguments as a tuple
+
+The idea is simple. We modify our function definition as:
+```
+>>> def person(first_name, *args):
+...     print(first_name, end = " ")
+...     for names in reversed(args):
+...             print(names, end=" ")
+...     print()
+>>> # Accepts single argument
+>>> person("Ram")
+Ram
+>>> # Accepts 2 arguments
+>>> person("Ram", "Chhetri")
+Ram Chhetri
+>>> # Accepts 3 arguments
+>>> person("Ram", "Chhetri", "Lal")
+Ram Lal Chhetri
+>>> person("Ram", "Chhetri", "Lal", "Krishna")
+Ram Krishna Lal Chhetri
+```
+We can see that now our function can accept `first_name` followed by `last_name`, `middle_name` as optional positional arguments. To see if `args` is indeed a tuple you can add
+```
+print(type(args))
+```
+inside of function definition
+Let’s see another example:
+
+**_Task 1: Write a function to add N integers which are passed as arguments ( N >= 1)_**
+Let’s do it for 1 integer
+```
+>>> def add(a):
+...     return a
+>>> add(8)
+8
+```
+Nothing complicated. Now do it for 2 integers
+```
+>>> def add(a, b):
+...     return a + b
+>>> add(8, 2)
+10
+>>> add(8)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: add() missing 1 required positional argument: 'b'
+```
+Notice?? We lost the compatibility for 1 argument.
+This is where `*args` comes handy:
+```
+>>> def add(a, *args):
+...     sum = a
+...     print(type(args))
+...     for num in args:
+...         sum += num
+...     return sum
+>>> add(8)
+8
+>> add(8, 2)
+10
+>> add(8, 2, 5)
+15
+```
+See how flexible it is using `*args`. Note it is not necessary to name `*arg`s as `args` . We can name it whatever we like. But it must be preceded with a `*`.
+
+[](https://www.blogger.com/null)2\. \*\***kwargs**
+--------------------------------------------------
+
+> \*\*kwargs collects extra positional arguments as a dictionary.
+
+Let’s return to our previous examples of function `person`:
+
+**_Task 2: Modify function person so that it accepts additional optional parameters phone\_num, email and so on…as keywords._**
+We modify our original function definition to accept a new argument `**kwargs` which is a keyword argument as:
+```
+>>> def person(first_name, *args, **kwargs):
+...     print(first_name, end=" ")
+...     for names in reversed(args):
+...             print(names, end=" ")
+...     print()
+...     # Since kwargs is a dictionary
+...     # we can iterate using .items()
+...     for key, value in kwargs.items():
+...             print(key, value)
+>>> person("Ram", "Chhetri", "Lal", phone_num="981128331", email="anon@testmail.com")
+
+Ram Lal Chhetri
+phone_num 981128331
+email anon@testmail.com
+```
+Since kwargs is of dictionary type. we can iterate over key, value using `.items()`
+**_Notes:_**
+
+*   `*args` and `**kwargs` are used to allow the function to accept a variable number of arguments
+*   `*args` collects positional arguments as a tuple whereas `**kwargs` as dictionary
+*   `args` and `kwargs` are just naming convention. You can name it whatever you like.
+*   `*` and `**` are also used in value unpacking

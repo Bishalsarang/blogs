@@ -1,0 +1,102 @@
+---
+title: 'At Coder Educational DP Contest Frog 2'
+date: 2019-03-26T03:56:00.004-07:00
+draft: false
+tags: 
+- dynamic programming
+- dp
+---
+
+[](https://www.blogger.com/null)Problem Link:
+---------------------------------------------
+
+[https://atcoder.jp/contests/dp/tasks/dp\_b](https://atcoder.jp/contests/dp/tasks/dp_b)  
+
+### [](https://www.blogger.com/null)Problem Statement
+
+There are `N` stones, numbered `1,2,…,N.` For each `i (1≤i≤N)` the height of Stone `i` is `h`  
+There is a frog who is initially on Stone 1. He will repeat the following action some number of times to reach Stone `N`:  
+If the frog is currently on Stone i jump to one of the following: Stone `i+1,i+2,…,i+K.` Here, a cost of |hi−hj| is incurred, where j is the stone to land on.  
+Find the minimum possible total cost incurred before the frog reaches Stone N.  
+
+[](https://www.blogger.com/null)Constraints
+-------------------------------------------
+
+*   All values in input are integers.
+*   `2 ≤ N ≤ 105`
+*   `1 ≤ K ≤ 100`
+*   `1 ≤ hi ≤ 104`
+
+### [](https://www.blogger.com/null)Input
+
+Input is given from Standard Input in the following format:  
+N K  
+h1 h2 … hN  
+
+[](https://www.blogger.com/null)Output
+--------------------------------------
+
+Print the minimum possible total cost incurred.  
+5 3  
+10 30 40 50 20  
+  
+Sample Output 1  
+30  
+If we follow the path `11 → 22 → 55`, the total cost incurred would be `|10−30|+|30−20|=30.`  
+
+[](https://www.blogger.com/null)**Solution:**
+---------------------------------------------
+
+This problem is similar to [Frog A](https://sarangbishal.blogspot.com/) . The only difference is that if the frog is at ith stone, it can jump upto k stones from the current stone.  
+Let’s say the frog is currently at i = 0 stones and k = 3, in one hop it can jump to one of the {1, 2, 3} stone.  
+The task is to find the minimum cost to reach (n - 1)th stone (0 based indexing as I find it easier)  
+Make an array dp\[n\] and initialize with infinite distance.Here, dp\[i\] gives the cost to reach ith stone. So,  
+
+```cpp
+dp[0] = 0;
+dp[1] = abs(h[1] - h[0]) 
+```
+For every other stones `2 <= i < n`, the frog can jump from from the stone before it, as long as the distance is less than or equal to `k.`  
+```cpp
+for(int j = i - 1, jump = 0; j >= 0 && jump < k; j--, jump++){
+     dp[i] = min(dp[i], dp[j] + abs(h[j] - h[i]));
+} 
+```
+
+[](https://www.blogger.com/null)Implementation:
+-----------------------------------------------
+
+```cpp
+#include <bits/stdc++.h>
+ 
+using namespace std;
+ 
+int main(){
+    int n, k; cin >> n >> k;
+    vector<int> h(n);
+    for(int i = 0; i < n; i++){
+        cin >> h[i];
+    }
+    
+    //dp[i] denotes the minimum cost to reach ith stone
+    // 0 < i < n - 1 are the stones
+    //We are asked to dind the cost to reach last stone i.e dp[n - 1]
+    //Initially there is infinite cost to reach ith stones
+    vector<int> dp(n, INT_MAX);
+  
+    //To reach first stone there is no cost. SO dp[0] = 0
+    dp[0] = 0;
+   //To reach second stone the frog can jump from 0th stone costing dp[1] = abs(h[1] - h[0])
+    dp[1] = abs(h[1] - h[0]);
+    
+    //For every other stones 2 <= i < n, the frog can jump from the (i - 1), (i - 2)...(i - k)th stones 
+    for(int i = 2; i < n; i++){
+      for(int j = i - 1, jump = 0; j  >= 0 && jump < k; j--, jump++){
+        dp[i] = min(dp[i], dp[j] + abs(h[j] - h[i]));
+      }
+    }
+    //Print minm cost to reach (n - 1)th stone
+    cout << dp[n - 1];
+    return 0;
+} 
+```

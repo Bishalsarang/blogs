@@ -1,0 +1,267 @@
+---
+title: 'Yatra 3.0 Coding Competition'
+date: 2019-07-14T01:19:00.000-07:00
+draft: false
+summary: My experience participating in Yatra Coding Competition
+tags: 
+- experience
+- coding
+- competition
+---
+
+I recently participated in a coding competition organized by [National College of Engineering(NCE)](http://nce.edu.np/) at Yatra 3.0. I'll be sharing my experience in this blog post.
+
+Here is the info about the contest:
+-----------------------------------
+
+*   **There were 7 programming questions, out of which we were required to solve any 5.**
+*   **No internet was allowed.**
+*   **The only languages allowed were C and C++.**
+*   **Total time available was 1:30 mins.**
+*   **The evaluation was done on the basis of correctness and tie was broken by submission time.**
+
+The problems were not that hard if you have done some programming before.
+
+> 1.  WAP to find the sum of digits of a given number until you reach a single digit.
+> 2.  WAP to print a string **N** times without using any loop.
+> 3.  WAP to swap 2 variables without the use of any temporary variable.
+> 4.  WAP to check if a number is even or odd without the use of arithmetic and logical expression.
+> 5.  WAP to write "Hello World!" without using semicolon.
+> 6.  WAP to print print format specifiers "%s %d".
+> 7.  WAP to add 2 numbers without using **+** operator.
+
+**Note: I may have changed the wording or order of problems as I don't have access to the original question**
+
+When I first looked at the questions, I knew or had already seen most of the problems. As the questions were easy, in order to get a good rank, I had to solve the problems as quickly as possible. So, I solved the questions that required less thinking and less time to type. I chose**: 2, 3, 4, 6, 7** The reason I didn't choose **Q1** was that it needed more typing and **Q5** because I couldn't think about the solution immediately at that time.
+
+Solutions:
+----------
+
+I decided to use C++ as the language of choice, as my knowledge of C has become somewhat rusty and I didn't want to spend a lot of time on debugging and thinking about language syntax. As I wasn't allowed to code on my own laptop, I have to make a template. The questions were basic so I used a simple template:
+
+```
+// Author: Bishal Sarang
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    // Code
+    return 0;
+} 
+```
+
+**2\. WAP to print string** N **times without using any loop.**
+
+Having solved several questions on recursion, this question was obvious. I could translate a loop using function call and passing counter variable **i** as a parameter.
+
+```
+for(int i = 0; i < n; i++){
+    cout << s << "\n";
+} 
+```
+
+The above loop can be easily written as:
+
+```
+// Author: Bishal Sarang
+#include<bits/stdc++.h>
+using namespace std;
+
+void solve(string s, int i){
+    if(i == 0){
+        return;
+    }
+    cout << s << "\n";
+    // Recursively call with paramter (i - 1)
+    solve(s, i - 1);
+}
+
+int main(){
+    // Code
+    string s; cin >> s;
+    int n; cin >> n;
+
+    // Call with parameter n. 
+    solve(s, n);
+    return 0;
+} 
+```
+
+**4\. WAP to check if a number is even or odd without the use of arithmetic and logical expression.**
+
+This question made me think for a while. If you are allowed to use arithmetic and logical expression, then the solution is straightforward
+
+```
+if(n % 2 == 0){
+    cout << "Even";
+}
+else{
+    cout << "Odd";
+} 
+```
+
+The closest operator, I could think of was bitwise operators, but I wasn't sure. With few trial and errors and observing some common bitwise property, I was able to simulate the above code using **bitwise &**
+
+```
+// Author: Bishal Sarang
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    // Code
+    int n; cin >> n;
+
+    if(n & 1){
+        cout << "Odd";
+    }
+    else{
+        cout << "Even";
+    }
+    return 0;
+} 
+```
+
+**6\. WAP to print format specifiers "%s %d".**
+
+This question was kind of confusing at first sight. So, I asked the volunteer what was the question asking. The task was to simply print the string "**%s %d**". This question would have been a little bit tricky if I wasn't allowed to use C++, but since I was allowed I immediately solved it.
+
+```
+// Author: Bishal Sarang
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    // Code
+    cout << "%s %d";
+    return 0;
+} 
+```
+
+Easy right :D ?? If I had to solve it using C, I would have done
+
+```
+// Author: Bishal Sarang
+#include<stdio.h>
+int main(){
+    printf("%%s %%d");
+    return 0;
+} 
+```
+
+**7\. WAP to add 2 numbers without using the** + **operator.**
+
+This question is a simple math question. My quick thought was, "If I ain't allowed to use plus, can I use minus?". Simple enough, I could write
+
+> ```
+> a + b = -(-a - b) 
+> ```
+
+```
+// Author: Bishal Sarang
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    // Code
+    int a, b; cin >> a >> b;
+    cout << -(-a - b);
+    return 0;
+} 
+```
+
+**3\. WAP to swap 2 variables without the use of any temporary variable.**
+
+This question is one of the common questions which you can find on pretty much any CS related website. The question is simple, but it's kind of tricky as no temporary variable is allowed. I knew I had seen the question, but I didn't remember the exact solution. All I knew was a + b , a - b written in series of statementS. I did some paperwork and with few trials and errors, I was able to derive the relation:
+
+> a = a + b; b = a - b; a = a - b;
+
+```
+// Author: Bishal Sarang
+ #include  <bits/stdc++.h>
+ using namespace std;
+
+int main(){ 
+    // Code int a, b; cin >> a >> b; 
+    a = a + b; 
+    b = a - b; 
+    a = a - b; 
+    // After Swapping 
+    cout << a << " " << b; 
+    return 0; 
+} 
+```
+
+These were the 5 problems, I solved. I would also like to include solution to remaining problems:
+
+**1\. WAP to find the sum of digits of a given number until you reach a single digit.** This question is not that hard if you know how to extract each digit using modulus(**%**) operator.
+
+```
+// Author: Bishal Sarang
+#include<bits/stdc++.h>
+using namespace std;
+
+int solve(int n){
+    // Initialize sum with 0
+    int sum = 0;
+    // Extract each digit and add to sum
+    while(n){
+      sum += (n % 10);
+      n /= 10;
+    }
+    // If the sum is single digit return sum
+    if(sum < 10){
+      return sum;
+    }
+    // Otherwise recursively find sum of digits of the current sum
+    return solve(sum);
+}
+
+int main(){
+    // Code
+    int n; cin >> n;
+    cout << solve(n);
+    return 0;
+} 
+```
+
+**5\. WAP to write "Hello World!" without using semicolon.**
+
+```
+// Author: Bishal Sarang
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    // Code
+    if(cout << "Hello"){
+
+    }
+    return 0;
+    } 
+```
+
+This works because the expression inside if is evaluated. Let's see another example to make it more clear
+
+```
+// Author: Bishal Sarang
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    // Initially x is 0
+    int x = 0;
+
+    // Expression x = 2 + 2 is evaluated
+    // So x becomes (2 + 2) = 4
+    if(x = 2 + 2){
+        // do nth
+    }
+    // Display 4
+    cout << x;
+    return 0;
+    } 
+```
+
+I managed to solve and submit all of the **5** problems correctly in about **15 mins** and secure first position in the contest. The second position managed to solve **4** problems correctly who managed to solve the problem in about **45+ mins.**
+
+It was a pleasant experience.....
