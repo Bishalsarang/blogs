@@ -6,7 +6,7 @@ const siteMetadata = {
   description: 'My personal blog. I write about programming.',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://bishalsarang.github.io/',
+  siteUrl: 'https://bishalsarangkoti.com.np',
   siteRepo: 'https://github.com/Bishalsarang/bishalsarang.github.io',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
