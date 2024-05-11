@@ -66,7 +66,8 @@ module.exports = () => {
       dirs: ['app', 'components', 'layouts', 'scripts'],
     },
     output: 'export',
-    basePath: '/blogs',
+    assetPrefix: 'https://bishalsarangkoti.com.np',
+    basePath: '',
     images: {
       unoptimized: true,
       remotePatterns: [
