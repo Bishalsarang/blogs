@@ -1,0 +1,92 @@
+---
+title: 'Writing Sum as Combinations and permutations from given array'
+date: 2019-06-24T22:23:00.000-07:00
+draft: false
+url: /2019/06/writing-sum-as-combinations-and.html
+tags:
+- recursion
+- subsets
+---
+
+Few days ago, I came across a question on [quora](https://www.quora.com/How-do-you-solve-this-programming-problem-Imagine-you-want-to-find-all-permutations-of-2-3-and-7-that-can-add-up-to-make-10-Ex-2-2-2-2-2-or-3-7) which goes like this:
+
+> How do you solve this programming problem? Imagine you want to find all permutations of 2, 3, and 7 that can add up to make 10. (Ex: 2, 2, 2, 2, 2; or 3 , 7).
+
+The question is basically asking us to represent **sum** using numbers from the array where a number can be used more than once.  
+Consider, the original example:
+
+> sum = 10  
+> nums = \[2, 3, 7\]
+
+We can use 2 five times to make sum 10. Also we consider `7 + 3` and `3 + 7` both as solution candidates.  
+At first glance, I thought the problem is related to subset sum. But no, we are allowed to use single number more than once and permutations is allowed. So, we’ll be using the recursion just like subset sum approach with slight modification i.e we are allowed to take same item again and again.
+
+[](https://www.blogger.com/null)Solution:
+-----------------------------------------
+
+The problem like this is easy to solve by recursion. Let’s try to visualize the solution recursively.  
+But, before that let’s talk about how would you solve it without code?  
+We have a list of numbers `nums = [2, 3, 7]` and we want to find all the combinations that make up the sum including the permutations.
+```
+eg: [3,7] and [7,3] to make 10 
+```
+My approach would be like this:
+
+1.  Start with sum 10 and an empty list.
+2.  Include the first element `2` to the list. Solve for `sum == 10 - 2 = 8` and `[2].`
+3.  Include the second element `3` to the list. Solve for `sum == 10 - 3 = 7` and `[3].`
+4.  Include the third element `7` to the list. Solve for `sum == 10 - 7 = 3` and `[7].`
+5.  Solve subproblems with `sum = x` and list `ans` recursively`.`
+
+If it doesn’t make much sense don’t worry, here is the recursion tree recursion tree.  
+[![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjimOky8ZWqjc1yxBUlpIXEfTMTHeYdSBbJO9iNwc2m689m0qyLFiB7k71iFcip2NaYhLL_dVPpeVs_C_WNSAgjM0StiBQFjDKFU7rJrboyt1fJY7Ov8x1AaJsZyxz7svJBR7DgS3HYi18/s1600/writing+sum+as+permutation+and+comb.png)](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjimOky8ZWqjc1yxBUlpIXEfTMTHeYdSBbJO9iNwc2m689m0qyLFiB7k71iFcip2NaYhLL_dVPpeVs_C_WNSAgjM0StiBQFjDKFU7rJrboyt1fJY7Ov8x1AaJsZyxz7svJBR7DgS3HYi18/s1600/writing+sum+as+permutation+and+comb.png)  
+Here, we start with `f(10, [])` and at every states we take `{2, 3, 7}` and add to our answer list such that sum is greater than or equal to the number.  
+For every state `f(sum, ans)` we have 3 choices(if num is less than or equal to sum):
+
+*   Include `2` to the `ans` and solve for `sum - 2`
+*   Include `3` to the ans and solve for `sum - 3`
+*   Include `7` to the `ans` and solve for `sum - 7`
+
+We can see at level 1, we have:
+```
+             — f(8, [2]) // Take 2
+   f(10, []) — f(7, [3]) // Take 3
+             — f(3, [7]) // Take 7
+
+```
+The nodes marked in gray in the recursion tree are the answers to the problem.
+Here is the complete code in Python:
+```py
+def solve(sum, ans):
+    # If sum becoms 0 we have found the required list
+    if sum == 0:
+        print(ans)
+    
+    # Include every other element to make the sum
+    # Number that is included also can be included
+    for elem in nums:
+        if sum - elem >= 0:
+            solve(sum - elem, ans + [elem])
+ 
+# We want to make the sum from list nums
+nums = [2, 3, 7]
+sum = 10
+ 
+# Call solve with sum and an empty list 
+solve(sum, []) 
+```
+
+[](https://www.blogger.com/null)Output:
+---------------------------------------
+
+```
+[2,  2,  2,  2,  2]
+[2,  2,  3,  3]
+[2,  3,  2,  3]
+[2,  3,  3,  2]
+[3,  2,  2,  3]
+[3,  2,  3,  2]
+[3,  3,  2,  2]
+[3,  7]
+[7,  3] 
+```

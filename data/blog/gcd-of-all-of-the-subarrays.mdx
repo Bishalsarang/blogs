@@ -1,0 +1,168 @@
+---
+title: 'GCD of all of the subarrays'
+date: 2019-09-12T01:38:00.000-07:00
+draft: false
+tags:
+- dp
+- gcd
+- subarray
+---
+
+In this post, I'm going to explain about a question which I came across on [quora](https://www.quora.com/How-do-I-find-all-the-GCDs-of-all-the-subarrays-of-an-array). The question asks us to calculate gcd of all of the subarrays. If you don;t know what subarray is visit [here](https://www.geeksforgeeks.org/subarraysubstring-vs-subsequence-and-programs-to-generate-them/).
+
+> > Suppose A = [1, 2, 3, 4, 5] then subarrays are: [1], [2], [3], [4], [5], \[1, 2\], \[2, 3\], \[3, 4\], \[4, 5\], \[1, 2, 3\], \[2, 3, 4\], \[3, 4, 5\], \[1, 2, 3, 4\], \[2, 3, 4, 5\] \[1, 2, 3, 4, 5\].
+
+Our objective is to find gcd of all of these subarrays. Assume gcd of subarray of length 1 as the element itself. I'll be implementing the solution in Python.
+1. **Bruteforce**
+The naive approach would be generating all the subarrays and then finding gcd for each subarray. This idea can be broken down into 2 parts:
+
+*   Finding subarrays
+*   Finding GCD of each subarray Let's see how we can find all the subarrays:
+
+```py
+def generate_subarray(A):
+ """
+     function that  generate and returns all subarrays
+ """
+ ans = []
+ # Starting from index i = 0
+ # Find subarrays of length 1, 2, 3, ,4 ... starting from i
+ for i in range(len(A)):
+     for j in range(i + 1, len(A) + 1):
+         ans.append(A[i:j])
+ return ans
+```
+Let's implement a function to find gcd of 2 numbers:
+
+
+```py
+def gcd(a, b):
+    if b == 0:
+        return a
+    return gcd(b, a % b)
+```
+Now, let's write a function to find gcd of each of the subarrays.
+```py
+def find_gcd(sub_array):
+    """
+        Returns gcd of a sub_array
+    """
+    gcd_sub_array = sub_array[0]
+
+    for i in range(1, len(sub_array)):
+        gcd_sub_array = gcd(sub_array[i], gcd_sub_array)
+
+    return gcd_sub_array
+```
+Here is our complete code.
+```py
+# Dictionary to store subarrays with their GCD
+gcd_sub = dict()
+
+def generate_subarray(A):
+    """
+        function that  generate and returns all subarrays
+    """
+    ans = []
+    # Starting from index i = 0
+    # Find subarrays of length 1, 2, 3, ,4 ... starting from i
+    for i in range(len(A)):
+        for j in range(i + 1, len(A) + 1):
+            ans.append(A[i:j])
+    return ans
+
+def gcd(a, b):
+    if b == 0:
+        return a
+    return gcd(b, a % b)
+
+def find_gcd(sub_array):
+    """
+        Returns gcd of a sub_array
+    """
+    gcd_sub_array = sub_array[0]
+
+    for i in range(1, len(sub_array)):
+        gcd_sub_array = gcd(sub_array[i], gcd_sub_array)
+
+    return gcd_sub_array
+
+def main():
+    A = [7, 3, 12, 7, 2]
+    sub_arrays = generate_subarray(A)
+
+    for sub_array in sub_arrays:
+        # For every subarray of length greater than 1
+        if len(sub_array) > 1:
+            gcd_sub[tuple(sub_array)] = find_gcd(sub_array)
+    # Prints
+    # {(7, 3): 1, (7, 3, 12): 1, (7, 3, 12, 7): 1, (7, 3, 12, 7, 2): 1, (3, 12): 3, (3, 12, 7): 1, (3, 12, 7, 2): 1, (12, 7): 1, (12, 7, 2): 1, (7, 2): 1}
+    print(gcd_sub)
+
+if __name__ == "__main__":
+    main()
+```
+Can we do better?
+
+2. **Tabulation**
+Let's recall
+
+> Suppose A = \[1, 2, 3, 4, 5\] then subarrays are: \[1\], \[2\], \[3\], \[4\], \[5\], \[1, 2\], \[2, 3\], \[3, 4\], \[4, 5\], \[1, 2, 3\], \[2, 3, 4\], \[3, 4, 5\], \[1, 2, 3, 4\], \[2, 3, 4, 5\] \[1, 2, 3, 4, 5\].
+
+Let's take the subarray \[1, 2\]. We can see that it can be constructed from subarray \[1\] by appending 2. Similarly, let's take subarray \[2, 3, 4\]. We can see that it can be constructed from subarray \[2, 3\] by appending 4 to it(or \[3, 4\] by prepending 2 to it) An important observation we can see is that subarray of length **_j_** can be constructed simply by appending an element to it if we already have subarray of length **_j - 1_**. The same goes with the gcd for calculating subarray. For instance:
+If **A = \[7, 3, 12, 7, 2\]** and if we have already calculated gcd for **\[7, 3\]** then we can calculate gcd for **\[7, 3, 12\]** as **gcd( gcd(7, 3), 12).** Let's try implementing the solution in the tabular approach:
+Let **dp\[i\]\[j\]** gives gcd for subarray **A\[i: j\].** Then
+```
+ dp[i][j] = gcd(dp[i][j - 1], A[j]) if i != j
+ A[i] if i == j
+```
+
+> Let’s say we have A = **\[7, 3, 12, 7, 2\]**
+>
+> *   dp\[0\]\[0\], then dp\[0\]\[0\] = A\[0\] = 7 This implies that gcd for subarray \[7\] is 7
+>
+> *   dp\[0\]\[1\], then dp\[0\]\[1\] = gcd(dp\[0\]\[0\], A\[1\]) = gcd(7, 3) = 1 which implies that gcd for subarray \[7, 3\] is 1
+>
+> *   dp\[0\]\[2\], then dp\[0\]\[2\] = gcd(dp\[0\]\[1\], A\[2\]) = gcd(1, 12) = 1 which implies that gcd for subarray \[7, 3, 12\] is 1
+>
+> *   dp\[0\]\[3\], then dp\[0\]\[3\] = gcd(dp\[0\]\[2\], A\[3\]) = gcd(1, 7) = 1 which implies that gcd for subarray \[7, 3, 12, 7\] is 1
+>
+> *   dp\[0\]\[4\], then dp\[0\]\[4\] = gcd(dp\[0\]\[3\], A\[4\]) = gcd(1, 2) = 1 which implies that gcd for subarray \[7, 3, 12, 7, 2\] is 1
+>
+> *   dp\[1\]\[1\], then dp\[1\]\[1\] = A\[1\] = 3
+>
+
+and so on..
+Here is the complete code.
+```py
+gcd_sub = dict()
+
+def gcd(a, b):
+    if b == 0:
+        return a
+    return gcd(b, a % b)
+
+
+def main():
+    A = [7, 3, 12, 7, 2]
+    # Construct 2D array of size len(A) by len(A)
+    # and initialize with -1
+    dp = [[-1 for _ in range(len(A))] for _ in range(len(A))]
+
+    # Set GCD of single element as the element itself
+    for i in range(len(A)):
+        dp[i][i] = A[i]
+
+    # For every other subarrays of length l
+    # Calculate gcd using  length l - 1
+    for i in range(0, len(A)):
+        for j in range(i + 1, len(A)):
+            # print(A[i:j], A[j])
+            dp[i][j] = gcd(dp[i][j - 1], A[j])
+            gcd_sub[tuple(A[i: j + 1])] = dp[i][j]
+
+    print(gcd_sub)
+
+if __name__ == "__main__":
+    main() 
+```
