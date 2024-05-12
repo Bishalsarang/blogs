@@ -7,20 +7,10 @@ interface Project {
 
 const projectsData: Project[] = [
   {
-    title: 'A Search Engine',
-    description: `What if you could look up any information in the world? Webpages, images, videos
-    and more. Google has many features to help you find exactly what you're looking
-    for.`,
-    imgSrc: '/static/images/google.png',
-    href: 'https://www.google.com',
-  },
-  {
-    title: 'The Time Machine',
-    description: `Imagine being able to travel back in time or to the future. Simple turn the knob
-    to the desired date and press "Go". No more worrying about lost keys or
-    forgotten headphones with this simple yet affordable solution.`,
-    imgSrc: '/static/images/time-machine.jpg',
-    href: '/blog/the-time-machine',
+    title: 'Recursion Tree Visualizer',
+    description: `A simple python package to visualize recursive function which can be useful for academic purpose as well as debugging. It generates animation and draws recursion tree.`,
+    imgSrc: 'https://socialify.git.ci/Bishalsarang/Recursion-Tree-Visualizer/image?description=1&forks=1&language=1&name=1&owner=1&pattern=Solid&stargazers=1&theme=Auto',
+    href: 'https://github.com/Bishalsarang/Recursion-Tree-Visualizer',
   },
 ]
 
