@@ -54,6 +54,7 @@ const securityHeaders = [
   },
 ]
 
+console.log(process.env.NEXT_PUBLIC_IS_PRODUCTION)
 /**
  * @type {import('next/dist/next-server/server/config').NextConfig}
  **/
@@ -66,7 +67,8 @@ module.exports = () => {
       dirs: ['app', 'components', 'layouts', 'scripts'],
     },
     output: 'export',
-    assetPrefix: 'https://bishalsarangkoti.com.np',
+    assetPrefix:
+      process.env.NEXT_PUBLIC_IS_PRODUCTION === 'true' ? 'https://bishalsarangkoti.com.np' : '',
     basePath: '',
     images: {
       unoptimized: true,
