@@ -139,6 +139,7 @@ export const Authors = defineDocumentType(() => ({
     github: { type: 'string' },
     layout: { type: 'string' },
     upwork: { type: 'string' },
+    quora: { type: 'string' },
   },
   computedFields,
 }))

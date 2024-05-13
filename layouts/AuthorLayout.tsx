@@ -12,7 +12,8 @@ interface Props {
 }
 
 export default function AuthorLayout({ children, content }: Props) {
-  const { name, avatar, occupation, company, email, twitter, linkedin, upwork, github } = content
+  const { name, avatar, occupation, company, email, twitter, linkedin, upwork, github, quora } =
+    content
   const pathname = usePathname()
   return (
     <>
@@ -43,6 +44,7 @@ export default function AuthorLayout({ children, content }: Props) {
               <SocialIcon kind="github" href={github} />
               <SocialIcon kind="linkedin" href={linkedin} />
               <SocialIcon kind="upwork" href={upwork} />
+              <SocialIcon kind="quora" href={quora} />
               <SocialIcon kind="mail" href={`mailto:${email}`} />
               <SocialIcon kind="x" href={twitter} />
             </div>

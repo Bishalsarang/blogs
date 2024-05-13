@@ -16,6 +16,7 @@ const siteMetadata = {
   // x: 'https://twitter.com/x',
   // twitter: 'https://twitter.com/Twitter',
   linkedin: 'https://www.linkedin.com/in/bishal-sarangkoti',
+  quora: 'https://www.quora.com/profile/Bishal-Sarangkoti',
   // threads: 'https://www.threads.net',
   // instagram: 'https://www.instagram.com',
   locale: 'en-US',
