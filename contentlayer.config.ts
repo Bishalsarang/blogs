@@ -144,9 +144,43 @@ export const Authors = defineDocumentType(() => ({
   computedFields,
 }))
 
+export const Experiences = defineDocumentType(() => ({
+  name: 'Experiences',
+  filePathPattern: 'experiences/**/*.mdx',
+  contentType: 'mdx',
+  fields: {
+    experiences: {
+      type: 'list',
+      of: {
+        type: 'json',
+        fields: {
+          companyName: { type: 'string', required: true },
+          startDate: { type: 'date' },
+          endDate: { type: 'date' },
+          location: { type: 'string' },
+          positions: {
+            type: 'list',
+            of: {
+              type: 'json',
+              fields: {
+                name: { type: 'string' },
+                type: 'string',
+                startDate: { type: 'date' },
+                endDate: { type: 'date' },
+                bullets: { type: 'list', of: { type: 'string' } },
+              },
+            },
+          },
+        },
+      },
+      required: true, // This line was moved to the correct location
+    },
+  },
+}))
+
 export default makeSource({
   contentDirPath: 'data',
-  documentTypes: [Blog, Authors],
+  documentTypes: [Blog, Authors, Experiences],
   mdx: {
     cwd: process.cwd(),
     remarkPlugins: [
