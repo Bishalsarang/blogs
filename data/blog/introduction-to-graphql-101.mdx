@@ -1,0 +1,47 @@
+---
+title: 'Introduction to GraphQL'
+date: 2024-05-15
+summary: 'An introductory guide to GraphQL'
+draft: true
+tags:
+- graphql
+- rest
+---
+
+
+In this post, we are going to learn about GraphQL. We will learn why we need GraphQL in the first place and work on a simple express GraphQL example.
+
+> GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data.
+
+## The Example
+Let's imagine a simple blogging app, which has 2 entities: `User` and `Blog`
+
+We can ignore the nitty gritty details for now and let's focus on how would we design REST APIs for that.
+Let's list down the use cases:
+1. Create a user
+2. Get all users
+3. Get a user
+4. Create a post
+5. Get a post
+
+To meet these use cases, we will have the following REST APIs
+1. User
+```
+POST /users
+GET /users
+GET /user/:id
+```
+2. Blog
+```
+POST /blogs
+GET /blogs
+GET /blogs/:id
+```
+
+## The Problem
+In this simple example, we can already see a major problem with REST API.
+### Number of endpoints to maintain
+We already have 6 endpoints for this simple app. If we have a large-scale app, this is going to grow significantly, and we need to document each endpoint, the payload it accepts, and the status codes it returns.
+
+### Number of requests made
+If we need to fetch multiple resources using REST API, we have to make multiple HTTP requests. If we are making those requests, especially from bandwidth constraint devices like mobile, and IoT devices, it makes sense to perform multiple actions in a single request.
